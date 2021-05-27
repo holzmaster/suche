@@ -272,7 +272,7 @@ const hints = [
 	"Das pr0gramm mag dich <3",
 	"Pizza mit Ananas ist essbar",
 	html`Hab ich schon gesagt, dass Du für Tags die <a href=//pr0gramm.com/search target=_blank>Suche auf pr0gramm</a> verwenden sollst?`,
-	html`Wenn Du ein hässlicher Entwickler ist, <a href="#">kannst du diese Seite verbessern</a>.`,
+	html`Wenn Du ein hässlicher Entwickler bist, <a href="#">kannst du diese Seite verbessern</a>.`,
 	"Der Suchindex ist nicht vollständig, wird aber laufend aktualisiert.",
 ];
 function nextHint() {
