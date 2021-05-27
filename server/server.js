@@ -122,7 +122,7 @@ server.get("/search/comments", (req, res, next) => {
 		const termResults = {
 			success: true,
 			term,
-			hits: queryResult.hits,
+			hits: queryResult.hits.map(h => ({...h, author: "Ein Nutzer"})), // https://pr0gramm.com/new/4586153:comment48636732
 			limit: queryResult.limit,
 			total: queryResult.nbHits,
 			offset: queryResult.offset,
