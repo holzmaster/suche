@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "lit-date": "^1.0.2",
+    "meilisearch": "^0.18.2",
+    "node-cache": "^5.1.2",
+    "npmlog": "^4.1.2",
+    "restify": "^8.5.1",
+    "restify-errors": "^8.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^15.3.1",
+    "@types/restify": "^8.5.1",
+    "@types/restify-errors": "^4.3.3",
+    "stopwords-iso": "^1.1.0"
+  }
+}

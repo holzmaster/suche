@@ -1,0 +1,12 @@
+root = true
+
+[*]
+insert_final_newline = true
+end_of_line = lf
+charset = utf-8
+
+[*.{js,html,css}]
+indent_style = tab
+
+[*.svg]
+insert_final_newline = false

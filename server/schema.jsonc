@@ -1,0 +1,33 @@
+{
+	"user": {
+		"id": 1234, // Users keep renaming themselves, the ID might not be unique for a user name
+		"name": "lol",
+		"score": 1337,
+		"registered": 1234567890
+	},
+	"post": {
+		"id": 1234,
+		"author": "Gamb",
+		"ocr_content": "Ich bin geil",
+		"extension": "png",
+		"thumb_url": "/2021/05/21/8ea2940767606b9e.jpg",
+		"source": "http://funnyjunk.com/lol.jpg",
+		"audio": false,
+		"sfw_flag": "1", // 1: sfw, 2: nsfw, 4: nsfl, 8: nsfp (string due to faceting)
+		"promoted": 1234, // promoted-id / boolean
+		"created_at": 1234567890,
+		"up": 13,
+		"down": 37
+	},
+	"comment": {
+		"id": 1234,
+		"post_id": 1234, // parent post
+		"parent_id": 1234, // parent comment
+		"author": "Gamb",
+		"content": "Ich bin RICHTIG geil",
+		// "sfw_flag": 1, // 1: sfw, 2: nsfw, 4: nsfl, 8: nsfp (of parent post)
+		"created_at": 1234567890,
+		"up": 13,
+		"down": 37
+	}
+}
