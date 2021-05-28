@@ -9,12 +9,6 @@ function searchComments(term, signal = undefined, offset = 0) {
 	u.searchParams.set("offset", offset.toString());
 	return fetch(u.toString(), { signal }).then(r => r.json());
 }
-function searchUsers(term, signal = undefined, offset = 0) {
-	const u = new URL(apiBase + "/search/users");
-	u.searchParams.set("term", term);
-	u.searchParams.set("offset", offset.toString());
-	return fetch(u.toString(), { signal }).then(r => r.json());
-}
 function searchImagePosts(term, signal = undefined, offset = 0) {
 	const u = new URL(apiBase + "/search/image-posts");
 	u.searchParams.set("term", term);
@@ -26,11 +20,9 @@ function search(term, signal) {
 	return Promise.all([
 		searchImagePosts(term, signal),
 		searchComments(term, signal),
-		searchUsers(term, signal),
 	]).then(results => ({
 		imagePosts: results[0],
 		comments: results[1],
-		users: results[2],
 	}));
 }
 
@@ -59,7 +51,7 @@ function submitSearch(value, abortSignal) {
 		.then(result => {
 			clearTimeout(loadingBarTimeout);
 
-			if (result === undefined || !result.comments.success || !result.users.success || !result.imagePosts.success) {
+			if (result === undefined || !result.comments.success || !result.imagePosts.success) {
 				alert("IRGENDWAS DOOFES IST PASSIERT :/");
 				return;
 			}
@@ -78,7 +70,7 @@ const throttledSearch = throttle(submitSearch, 2000);
 // TODO: Do this properly with react (we did not intend to have much interaction when this project was started)
 
 const resultView = result => {
-	const { imagePosts, users, comments } = result;
+	const { imagePosts, comments } = result;
 
 	// TODO: Re-Write this whole mess (probably just the entire FE)
 
@@ -122,28 +114,7 @@ const resultView = result => {
 				const b = document.getElementById("more-comments");
 				if (b) b.disabled = false;
 			});
-	};
-
-	const loadMoreUsers = (event, currentUsers) => {
-
-		const b = document.getElementById("more-users");
-		if (b) b.disabled = false;
-
-		searchUsers(users.term, undefined, currentUsers.offset + currentUsers.limit)
-			.then(nextResults => {
-				const resultsDiv = document.getElementById("results");
-				render(resultView({
-					...result,
-					users: {
-						...nextResults,
-						hits: [...currentUsers.hits, ...nextResults.hits],
-					},
-				}), resultsDiv);
-
-				const b = document.getElementById("more-users");
-				if (b) b.disabled = false;
-			});
-	};
+	}
 
 	// TODO: Make the results look prettier, have better UX
 	return html`
@@ -175,30 +146,9 @@ const resultView = result => {
 			</div>
 		` : undefined}
 	</div>
-	<div class="result-panel">
-		<h3>
-			<img class=icon src="img/user.svg">
-			${users.hits.length} User von ${users.total}
-		</h3>
-		<div class="user-list">
-			${users.hits.map(userResult)}
-		</div>
-		${users.hits.length < users.total ? html`
-			<div class=result-list-footer>
-				<button class=secondary id=more-users @click=${e => loadMoreUsers(e, users)}>Mehr Nutzer zeigen</button>
-			</div>
-		` : undefined}
-	</div>
 `;
 }
 
-const userResult = user => html`
-	<li>
-		<a .href=${"https://pr0gramm.com/user/" + encodeURIComponent(user.name)}>
-			${user.name}
-		</a>
-	</li>
-`;
 const postResult = post => html`
 	<a .href=${`https://pr0gramm.com/new/${post.id}`}>${post.sfw_flag !== "1" && post.sfw_flag !== "8"
 		? html`<span class=sfw-flag-placeholder>${getHumanReadableSfwFlag(post.sfw_flag)}</span>`
@@ -230,12 +180,11 @@ window.addEventListener("load", () => {
 		const f = new Intl.NumberFormat();
 
 		// totalQueries isn't fair here, since every submission will trigger three queries (this may change in the future)
-		const totalQueries = stats.queryCount.imagePosts + stats.queryCount.users + stats.queryCount.comments;
-		const actualTotalQueries = totalQueries / 3;
+		const totalQueries = stats.queryCount.imagePosts + stats.queryCount.comments;
+		const actualTotalQueries = totalQueries / 2;
 
 		document.getElementById("stats-queries").textContent = f.format(actualTotalQueries | 0);
 		document.getElementById("stats-posts").textContent = f.format(stats.entries.imagePosts);
-		document.getElementById("stats-users").textContent = f.format(stats.entries.users);
 		document.getElementById("stats-comments").textContent = f.format(stats.entries.comments);
 		document.getElementById("stats-size").textContent = f.format(((stats.databaseSize / (1024 * 1024 * 1024) * 10) | 0) / 10);
 

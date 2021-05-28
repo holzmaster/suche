@@ -46,7 +46,6 @@ const meili = new MeiliSearch({
 const index = {
 	imagePosts: meili.index("image_posts"),
 	comments: meili.index("comments"),
-	users: meili.index("users"),
 };
 
 const searchCache = new NodeCache({
@@ -66,14 +65,12 @@ server.get("/stats", (req, res, next) => {
 	Promise.allSettled([
 		index.imagePosts.getStats().then(v => v.numberOfDocuments),
 		index.comments.getStats().then(v => v.numberOfDocuments),
-		index.users.getStats().then(v => v.numberOfDocuments),
 		meili.stats(),
 	]).then(stats => {
 		const r = {
 			entries: {
 				imagePosts: stats[0].value ?? 0,
 				comments: stats[1].value ?? 0,
-				users: stats[2].value ?? 0,
 			},
 			databaseSize: stats[3].value?.databaseSize ?? 0,
 			lastUpdate: stats[3].value?.lastUpdate ?? 0,
@@ -170,41 +167,6 @@ server.get("/search/image-posts", (req, res, next) => {
 	}).catch(_ => next(new errors.InternalServerError()));
 });
 
-server.get("/search/users", (req, res, next) => {
-	const queryData = getTermAndOffset(req, res, next);
-	if (queryData === undefined)
-		return next(new errors.BadRequestError());
-
-	const [term, offset] = queryData;
-
-	++queryCount.users;
-
-	const cachedResult = searchCache.get(`users:${term}:${offset}`);
-	if (cachedResult !== undefined) {
-		res.send(cachedResult);
-		return next();
-	}
-
-	log.info("search", `users:${term}:${offset}`);
-
-	index.users.search(term, {
-		offset,
-	}).then(queryResult => {
-		const termResults = {
-			success: true,
-			term,
-			hits: queryResult.hits,
-			limit: queryResult.limit,
-			total: queryResult.nbHits,
-			offset: queryResult.offset,
-			qt: queryResult.processingTimeMs,
-		};
-		searchCache.set(`users:${term}:${offset}`, termResults);
-		res.send(termResults);
-		return next();
-	}).catch(_ => next(new errors.InternalServerError()));
-});
-
 server.get("/monitor", (req, res, next) => {
 	res.send({ ok: true });
 	return next();
@@ -225,7 +187,6 @@ function loadQueryStats() {
 		return {
 			imagePosts: 0,
 			comments: 0,
-			users: 0,
 		};
 	}
 

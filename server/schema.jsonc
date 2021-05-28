@@ -1,10 +1,4 @@
 {
-	"user": {
-		"id": 1234, // Users keep renaming themselves, the ID might not be unique for a user name
-		"name": "lol",
-		"score": 1337,
-		"registered": 1234567890
-	},
 	"post": {
 		"id": 1234,
 		"author": "Gamb",

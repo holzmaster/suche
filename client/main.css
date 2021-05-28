@@ -241,11 +241,6 @@ button .icon {
 	justify-content: center;
 }
 
-
-.user-list a {
-	font-size: 24px;
-}
-
 .text-cycle {
 	--hint-duration: 5000ms;
 	animation: hint-animation var(--hint-duration);

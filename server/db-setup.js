@@ -12,13 +12,11 @@ const search = new MeiliSearch({
 });
 
 async function main() {
-	await search.createIndex("users", { primaryKey: "id" });
 	await search.createIndex("image_posts", { primaryKey: "id" });
 	await search.createIndex("comments", { primaryKey: "id" });
 
 	await setTimeout(10 * 1000);
 
-	const users = await search.getIndex("users");
 	const imagePosts = await search.getIndex("image_posts");
 	const comments = await search.getIndex("comments");
 
@@ -39,24 +37,6 @@ async function main() {
 		"gott": ["cha0s"],
 		"marina": ["hure"],
 	};
-
-	await users.updateSettings({
-		displayedAttributes: [
-			"name",
-			"registered",
-		],
-		searchableAttributes: [
-			"name",
-		],
-		attributesForFaceting: [
-			// user status changes too often, we don't want to update this,
-			// so no faceting :(
-		],
-		stopWords: [],
-		distinctAttribute: "name", // Users keep renaming themselves, the name might appear multiple times. We ignore this here.
-		// synonyms: {},
-		// rankingRules: [],
-	});
 
 	await imagePosts.updateSettings({
 		displayedAttributes: [
