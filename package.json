@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "lit-html": "^1.4.1"
+  }
+}
