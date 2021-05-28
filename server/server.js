@@ -72,8 +72,8 @@ server.get("/stats", (req, res, next) => {
 				imagePosts: stats[0].value ?? 0,
 				comments: stats[1].value ?? 0,
 			},
-			databaseSize: stats[3].value?.databaseSize ?? 0,
-			lastUpdate: stats[3].value?.lastUpdate ?? 0,
+			databaseSize: stats[2].value?.databaseSize ?? 0,
+			lastUpdate: stats[2].value?.lastUpdate ?? 0,
 			queryCount,
 		};
 
