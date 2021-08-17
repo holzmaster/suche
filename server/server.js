@@ -27,13 +27,17 @@ server.use(restify.plugins.throttle({
 }));
 
 if (process.env.NODE_ENV !== "production") {
-	server.use(
-		function crossOrigin(req, res, next) {
-			res.header("Access-Control-Allow-Origin", "*");
-			res.header("Access-Control-Allow-Headers", "X-Requested-With");
-			return next();
-		}
-	);
+	server.use((req, res, next) => {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "X-Requested-With");
+		return next();
+	});
+} else {
+	server.use((req, res, next) => {
+		res.header("Access-Control-Allow-Origin", "https://holzmaster.github.io");
+		res.header("Access-Control-Allow-Headers", "X-Requested-With");
+		return next();
+	});
 }
 
 const queryStatsFile = process.env.STATS_FILE ?? "stats.json";
