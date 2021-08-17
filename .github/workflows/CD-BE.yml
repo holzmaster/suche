@@ -11,7 +11,7 @@ env:
   REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
 
 jobs:
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
   deploy:
     steps:
