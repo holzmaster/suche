@@ -96,7 +96,7 @@ body {
 	color: #f2f5f4;
 }
 
-h1, h2, aside, #search, footer {
+h1, h2, aside, footer {
 	text-align: center;
 }
 
@@ -151,31 +151,6 @@ form:invalid button.submit {
 	pointer-events: none;
 	background-color: #3737379c !important;
 	color: #888 !important;
-}
-
-#search {
-	display: flex;
-	justify-content: center;
-}
-
-#search input[name=query] {
-	width: 500px;
-	font-size: 20px;
-	height: 20px;
-	padding: 10px;
-	border-radius: var(--border-radius) 0 0 var(--border-radius);
-
-	background-image: url("img/search.svg");
-	background-repeat: no-repeat;
-	background-position: 8px 50%;
-	background-size: 20px;
-	padding-left: calc(20px + 8px + 8px);
-}
-#search button {
-	height: 40px;
-	width: 100px;
-	border-radius: 0 var(--border-radius) var(--border-radius) 0;
-	font-weight: bold;
 }
 
 #results {
