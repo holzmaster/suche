@@ -1,6 +1,8 @@
 # Hässliche Suche
 > Volltextsuche für das pr0gramm
 
+Archiviert seit dem 2023-10-13. Keine Lust und Zeit mehr. ¯\\\_(ツ)_/¯
+
 ## Setup & Start etc
 
 Zeug runterladen:
